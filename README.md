@@ -28,7 +28,7 @@
 
 
 ## 获取本镜像
-🚘获取本镜像：`docker pul ygqygq2/yapi:latest`
+🚘获取本镜像：`dockerpull ygqygq2/yapi:latest`
 
 ## docker-compose 部署
 ```
