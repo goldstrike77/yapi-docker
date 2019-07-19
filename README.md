@@ -35,7 +35,7 @@
 version: '2.1'
 services:
   yapi:
-    image: mrjin/yapi:latest
+    image: ygqygq2/yapi:latest
     # build: ./
     container_name: yapi
     environment:
