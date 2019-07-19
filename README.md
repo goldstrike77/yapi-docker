@@ -1,12 +1,13 @@
 <h2 align="center">Docker for YApi</h2>
+<span class="text">forked from <a data-hovercard-type="repository" data-hovercard-url="/jinfeijie/yapi/hovercard" href="https://github.com/jinfeijie/yapi">jinfeijie/yapi</a></span>
 <p align="center">一键部署YApi</p>
 
-<p align="center">JimCY [me@jinfeijie.cn] </p>
+<p align="center">ygqygq2 [29ygq@sina.com] </p>
 
 <p align="center">
-<a href="https://travis-ci.org/jinfeijie/yapi"><img src="https://travis-ci.org/jinfeijie/yapi.svg?branch=master" alt="Build Status"></a>
+<a href="https://travis-ci.org/ygqygq2/yapi"><img src="https://travis-ci.org/ygqygq2/yapi.svg?branch=master" alt="Build Status"></a>
 <a href="https://cloud.docker.com/u/mrjin/repository/docker/mrjin/yapi"><img src="https://img.shields.io/docker/automated/mrjin/yapi.svg?style=flat-square" alt=""></a>
-<a href="https://github.com/jinfeijie/yapi"><img src="https://img.shields.io/github/license/jinfeijie/yapi.svg?style=flat-square" alt="License"></a>
+<a href="https://github.com/ygqygq2/yapi"><img src="https://img.shields.io/github/license/ygqygq2/yapi.svg?style=flat-square" alt="License"></a>
 </p>
 
 
@@ -16,10 +17,10 @@
 ## 可修改变量
 | 环境变量       | 默认值         | 建议         |
 | ------------- |:-------------:|:-----------:|
-| VERSION | 1.5.6  | 不建议修改   |
+| VERSION | 1.7.2  | 不建议修改   |
 | HOME | /home | 可修改 |  
 | PORT | 3000  | 可修改 | 
-| ADMIN_EMAIL | me@jinfeijie.cn  | 建议修改 | 
+| ADMIN_EMAIL | admin@admin.com | 建议修改 | 
 | DB_SERVER | mongo(127.0.0.1)  | 不建议修改 |
 | DB_NAME | yapi  | 不建议修改 |
 | DB_PORT | 27017 | 不建议修改|
@@ -27,7 +28,7 @@
 
 
 ## 获取本镜像
-🚘获取本镜像：`docker pull mrjin/yapi:latest`
+🚘获取本镜像：`docker pullygqygq2/yapi:latest`
 
 ## docker-compose 部署
 ```
@@ -38,11 +39,11 @@ services:
     # build: ./
     container_name: yapi
     environment:
-      - VERSION=1.5.6
+      - VERSION=1.7.2
       - LOG_PATH=/tmp/yapi.log
       - HOME=/home
       - PORT=3000
-      - ADMIN_EMAIL=me@jinfeijie.cn
+      - ADMIN_EMAIL=admin@admin.com
       - DB_SERVER=mongo
       - DB_NAME=yapi
       - DB_PORT=27017
@@ -88,6 +89,6 @@ server {
 ```
 
 ## 其他
-📧联系[@jinfeijie](mailto:me@jinfeijie.cn)
+📧联系[@ygqygq2](mailto29ygq@sina.com)
 
 ✨欢迎 Star && Fork

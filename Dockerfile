@@ -1,9 +1,9 @@
-FROM node:10.15.2-jessie
-MAINTAINER mrjin<me@jinfeijie.cn>
-ENV VERSION 	1.5.6
+FROM node:lts-jessie
+MAINTAINER ygqygq2<29ygq@sina.com>
+ENV VERSION 	1.7.2
 ENV HOME        "/home"
 ENV PORT        3000
-ENV ADMIN_EMAIL "me@jinfeijie.cn"
+ENV ADMIN_EMAIL "admin@admin.com"
 ENV DB_SERVER 	"mongo"
 ENV DB_NAME 	"yapi"
 ENV DB_PORT 	27017
