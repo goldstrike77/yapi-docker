@@ -6,7 +6,7 @@
 
 <p align="center">
 <a href="https://travis-ci.org/ygqygq2/yapi"><img src="https://travis-ci.org/ygqygq2/yapi.svg?branch=master" alt="Build Status"></a>
-<a href="https://cloud.docker.com/u/mrjin/repository/docker/mrjin/yapi"><img src="https://img.shields.io/docker/automated/mrjin/yapi.svg?style=flat-square" alt=""></a>
+<a href="https://cloud.docker.com/u/ygqygq2/repository/docker/ygqygq2/yapi"><img src="https://img.shields.io/docker/automated/ygqygq2/yapi.svg?style=flat-square" alt=""></a>
 <a href="https://github.com/ygqygq2/yapi"><img src="https://img.shields.io/github/license/ygqygq2/yapi.svg?style=flat-square" alt="License"></a>
 </p>
 
