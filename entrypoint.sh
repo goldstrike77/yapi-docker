@@ -1,4 +1,9 @@
 #! /bin/sh
+ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l`
+if [ $ret -ne 0 ]; then
+    npm config set registry https://registry.npm.taobao.org
+fi
+
 cd ${VENDORS}
 if [ ! -e "init.lock" ]; then
     cd ${VENDORS}
