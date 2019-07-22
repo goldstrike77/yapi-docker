@@ -5,24 +5,23 @@ MAINTAINER ygqygq2<29ygq@sina.com>
 # yapi默认安装文件在/home/vendors下
 
 # 默认环境变量
-ENV VERSION 	1.7.2
-ENV HOME        "/home"
-ENV PORT        3000
-ENV ADMIN_EMAIL "admin@admin.com"
-ENV DB_SERVER 	"mongo"
-ENV DB_NAME 	"yapi"
-ENV DB_PORT 	27017
-ENV VENDORS 	${HOME}/vendors
-ENV GIT_URL     https://github.com/YMFE/yapi.git
-ENV GIT_MIRROR_URL     https://gitee.com/mirrors/YApi.git
-
-WORKDIR ${HOME}
+ENV VERSION=1.7.2 \
+  HOME="/home" \
+  PORT=3000 \
+  ADMIN_EMAIL="admin@admin.com" \
+  DB_SERVER="mongo" \
+  DB_NAME="yapi" \
+  DB_PORT=27017 \
+  VENDORS=${HOME}/vendors \
+  GIT_URL=https://github.com/YMFE/yapi.git \
+  GIT_MIRROR_URL=https://gitee.com/mirrors/YApi.git
 
 # 拷贝相关文档至默认位置
 COPY entrypoint.sh /bin
 COPY wait-for-it.sh /
 
-RUN rm -rf node && \
+RUN cd $HOME && \
+    rm -rf node && \
     ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l` && \
     if [ $ret -ne 0 ]; then \
         GIT_URL=${GIT_MIRROR_URL} && npm config set registry https://registry.npm.taobao.org; \
