@@ -3,7 +3,7 @@ cd ${VENDORS}
 if [ ! -e "init.lock" ]; then
     cd ${VENDORS}
     # 添加密码支持
-    if [[ ! -z "${DB_USER}" && ! -z "$DB_PASSWORD" ]]; then 
+    if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
 cat > config.json <<EOF
 {
    "port": "${PORT}",
