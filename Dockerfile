@@ -1,5 +1,10 @@
 FROM node:lts-jessie
+
 MAINTAINER ygqygq2<29ygq@sina.com>
+
+# yapi默认安装文件在/home/vendors下
+
+# 默认环境变量
 ENV VERSION 	1.7.2
 ENV HOME        "/home"
 ENV PORT        3000
@@ -11,10 +16,10 @@ ENV VENDORS 	${HOME}/vendors
 ENV GIT_URL     https://github.com/YMFE/yapi.git
 ENV GIT_MIRROR_URL     https://gitee.com/mirrors/YApi.git
 
-WORKDIR ${HOME}/
+WORKDIR ${HOME}
 
+# 拷贝相关文档至默认位置
 COPY entrypoint.sh /bin
-COPY config.json ${HOME}
 COPY wait-for-it.sh /
 
 RUN rm -rf node && \
@@ -24,12 +29,12 @@ RUN rm -rf node && \
     fi; \
     echo ${GIT_URL} && \
 	git clone --depth 1 ${GIT_URL} vendors && \
-	mv ${HOME}/config.json ${VENDORS} && \
 	cd vendors && \
 	npm install -g node-gyp yapi-cli && \
 	npm install --production && \
  	chmod +x /bin/entrypoint.sh && \
  	chmod +x /wait-for-it.sh
 
+WORKDIR ${VENDORS}
 EXPOSE ${PORT}
 ENTRYPOINT ["entrypoint.sh"]
