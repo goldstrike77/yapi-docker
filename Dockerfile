@@ -12,16 +12,17 @@ ENV VERSION=1.7.2 \
   DB_SERVER="mongo" \
   DB_NAME="yapi" \
   DB_PORT=27017 \
-  VENDORS=${HOME}/vendors \
+  VENDORS=/home/vendors \
   GIT_URL=https://github.com/YMFE/yapi.git \
   GIT_MIRROR_URL=https://gitee.com/mirrors/YApi.git
+
+WORKDIR ${HOME}/
 
 # 拷贝相关文档至默认位置
 COPY entrypoint.sh /bin
 COPY wait-for-it.sh /
 
-RUN cd $HOME && \
-    rm -rf node && \
+RUN rm -rf node && \
     ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l` && \
     if [ $ret -ne 0 ]; then \
         GIT_URL=${GIT_MIRROR_URL} && npm config set registry https://registry.npm.taobao.org; \
@@ -34,6 +35,5 @@ RUN cd $HOME && \
  	chmod +x /bin/entrypoint.sh && \
  	chmod +x /wait-for-it.sh
 
-WORKDIR ${VENDORS}
 EXPOSE ${PORT}
 ENTRYPOINT ["entrypoint.sh"]

@@ -70,6 +70,7 @@ cat > config.json <<EOF
 }
 EOF
     fi
+    \cp config.json ../
     # 安装指定版本yapi
     yapi install -v ${VERSION}
     touch init.lock
