@@ -30,6 +30,7 @@ function install_yapi_cli() {
     cd ${HOME}
     echo ${GIT_URL}
     if [ ! -d vendors/.git ]; then
+        mv vendors /tmp/
         git clone --depth 1 ${GIT_URL} vendors
     fi
     cd vendors
@@ -57,9 +58,9 @@ function install_yapi() {
     "authSource": ""
    },
   "mail": {
-    "enable": ${mail_enable},
+    "enable": "${mail_enable}",
     "host": "${mail_host}",
-    "port": ${mail_port},
+    "port": "${mail_port}",
     "from": "${mail_user}",
     "auth": {
       "user": "${mail_user}",
@@ -76,12 +77,12 @@ EOF
   "db": {
     "servername": "${DB_SERVER}",
     "DATABASE": "${DB_NAME}",
-    "port": "${DB_PORT}",
+    "port": "${DB_PORT}"
    },
   "mail": {
-    "enable": ${mail_enable},
+    "enable": "${mail_enable}",
     "host": "${mail_host}",
-    "port": ${mail_port},
+    "port": "${mail_port}",
     "from": "${mail_user}",
     "auth": {
       "user": "${mail_user}",
@@ -94,7 +95,6 @@ EOF
         else
             echo "使用已存在的config.json"
         fi
-    
     # 安装指定版本yapi
     yapi-cli install -v ${VERSION}
     touch init.lock
