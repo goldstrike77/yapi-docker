@@ -29,7 +29,9 @@ function install_yapi_cli() {
     # 执行安装,默认最新版本
     cd ${HOME}
     echo ${GIT_URL}
-    git clone --depth 1 ${GIT_URL} vendors
+    if [ ! -d vendors/.git ]; then
+        git clone --depth 1 ${GIT_URL} vendors
+    fi
     cd vendors
     npm install -g node-gyp yapi-cli
     npm install --production
