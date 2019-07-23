@@ -1,5 +1,7 @@
 #!/bin/bash
 # 安装位置根据变量VENDORS定义
+# yapi要求config.json在HOME目录,而vendors为程序运行入口目录
+# yapi-cli要求config.json在当前目录下
 
 # 定义一些默认参数
 mail_enable=${MAIL_ENABLE:-false}
@@ -10,24 +12,37 @@ mail_pass=${MAIL_PASS:-yapi}
 VENDORS=${HOME}/vendors
 PLUGINS=${PLUGINS}
 
-
-# 判断是否在国内,加快安装速度
-ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l`
-if [ $ret -ne 0 ]; then
-    npm config set registry https://registry.npm.taobao.org
-    npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
-fi
-
 # 切换至安装目录
 [ ! -d "$VENDORS" ] && mkdir -p "$VENDORS"
-cd ${VENDORS}
 
-# 判断是否在安装目录已经安装
-if [ ! -e "${HOME}/init.lock" ]; then
-    if [ ! -e "config.json" ]; then
-        # 判断是否有用户密码，重新设置config.json
-        if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
-cat > config.json <<EOF
+function check_in_china() {
+    # 判断是否在国内,加快安装速度
+    ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l`
+    if [ $ret -ne 0 ]; then
+        GIT_URL=${GIT_MIRROR_URL}
+        npm config set registry https://registry.npm.taobao.org
+        npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
+    fi
+}
+
+function install_yapi_cli() {
+    # 执行安装,默认最新版本
+    cd ${HOME}
+    echo ${GIT_URL}
+    git clone --depth 1 ${GIT_URL} vendors
+    cd vendors
+    npm install -g node-gyp yapi-cli
+    npm install --production
+}
+
+function install_yapi() {
+    cd ${HOME}
+    # 判断是否在安装目录已经安装
+    if [ ! -e "init.lock" ]; then
+        if [ ! -e "config.json" ]; then
+            # 判断是否有用户密码，重新设置config.json
+            if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
+    cat > config.json <<EOF
 {
   "port": "${PORT}",
   "adminAccount": "${ADMIN_EMAIL}",
@@ -51,8 +66,8 @@ cat > config.json <<EOF
   }
 }
 EOF
-        else
-cat > config.json <<EOF
+            else
+    cat > config.json <<EOF
 {
   "port": "${PORT}",
   "adminAccount": "${ADMIN_EMAIL}",
@@ -73,18 +88,16 @@ cat > config.json <<EOF
   }
 }
 EOF
+            fi
+        else
+            echo "使用已存在的config.json"
         fi
-    else
-        echo "使用已存在的config.json"
-    fi
-
-    \cp config.json ../
-    # 切换回 home
+    
     # 安装指定版本yapi
-    cd ..
     yapi-cli install -v ${VERSION}
-    touch ${HOME}/init.lock
-fi
+    touch init.lock
+    fi
+}
 
 function install_plugins() {
     # 安装插件
@@ -93,6 +106,11 @@ function install_plugins() {
         shift
     done
 }
+
+
+check_in_china
+install_yapi_cli
+install_yapi
 
 # 安装插件
 if [ ! -z "${PLUGINS}" ]; then
