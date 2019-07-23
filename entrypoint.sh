@@ -21,7 +21,7 @@ fi
 cd ${VENDORS}
 
 # 判断是否在安装目录已经安装
-if [ ! -e "init.lock" ]; then
+if [ ! -e "${HOME}/init.lock" ]; then
     # 判断是否有用户密码，重新设置config.json
     if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
 cat > config.json <<EOF
@@ -71,11 +71,13 @@ cat > config.json <<EOF
 }
 EOF
     fi
+
+    # 切换回 home
     \cp config.json ../
     # 安装指定版本yapi
     cd ..
     yapi-cli install -v ${VERSION}
-    touch init.lock
+    touch ${HOME}/init.lock
 fi
 
 cd ${VENDORS}
