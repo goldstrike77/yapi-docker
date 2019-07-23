@@ -7,6 +7,7 @@ mail_host=${MAIL_HOST:-smtp.163.com}
 mail_port=${MAIL_PORT:-465}
 mail_user=${MAIL_USER:-yapi@163.com}
 mail_pass=${MAIL_PASS:-yapi}
+VENDORS=${HOME}/vendors
 
 
 # 判断是否在国内,加快安装速度
@@ -72,10 +73,12 @@ EOF
     fi
     \cp config.json ../
     # 安装指定版本yapi
-    yapi install -v ${VERSION}
+    cd ..
+    yapi-cli install -v ${VERSION}
     touch init.lock
 fi
 
+cd ${VENDORS}
 # 先判断有没有CMD指定路径
 if [ $1 ]; then
     node $i
