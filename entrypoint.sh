@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # 安装位置根据变量VENDORS定义
 
 # 定义一些默认参数
@@ -8,12 +8,14 @@ mail_port=${MAIL_PORT:-465}
 mail_user=${MAIL_USER:-yapi@163.com}
 mail_pass=${MAIL_PASS:-yapi}
 VENDORS=${HOME}/vendors
+PLUGINS=${PLUGINS}
 
 
 # 判断是否在国内,加快安装速度
 ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l`
 if [ $ret -ne 0 ]; then
     npm config set registry https://registry.npm.taobao.org
+    npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
 fi
 
 # 切换至安装目录
@@ -22,8 +24,9 @@ cd ${VENDORS}
 
 # 判断是否在安装目录已经安装
 if [ ! -e "${HOME}/init.lock" ]; then
-    # 判断是否有用户密码，重新设置config.json
-    if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
+    if [ ! -e "config.json" ]; then
+        # 判断是否有用户密码，重新设置config.json
+        if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
 cat > config.json <<EOF
 {
   "port": "${PORT}",
@@ -48,7 +51,7 @@ cat > config.json <<EOF
   }
 }
 EOF
-    else
+        else
 cat > config.json <<EOF
 {
   "port": "${PORT}",
@@ -70,14 +73,32 @@ cat > config.json <<EOF
   }
 }
 EOF
+        fi
+    else
+        echo "使用已存在的config.json"
     fi
 
-    # 切换回 home
     \cp config.json ../
+    # 切换回 home
     # 安装指定版本yapi
     cd ..
     yapi-cli install -v ${VERSION}
     touch ${HOME}/init.lock
+fi
+
+function install_plugins() {
+    # 安装插件
+    while [ $# != 0 ]; do
+        yapi-cli plugin --name $1
+        shift
+    done
+}
+
+# 安装插件
+if [ ! -z "${PLUGINS}" ]; then
+    cd ${HOME}
+    npm install -g ykit
+    install_plugins ${PLUGINS}
 fi
 
 cd ${VENDORS}
