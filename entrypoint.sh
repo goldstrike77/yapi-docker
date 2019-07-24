@@ -85,7 +85,11 @@ EOF
         # 安装指定版本yapi
         if [ "${HOME}" != "/home" ]; then
             yapi-cli install -v ${VERSION}
+            cd $VENDORS
+            # 有bug，缺少qs 
+            npm install qs
         fi
+        cd ${HOME}
         touch init.lock
     fi
 }
@@ -114,5 +118,6 @@ cd ${VENDORS}
 if [ $1 ]; then
     node $i
 else
-    node server/app.js
+    #node server/app.js
+    npm start
 fi
