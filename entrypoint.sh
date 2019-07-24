@@ -1,7 +1,7 @@
 #!/bin/bash
 # 安装位置根据变量VENDORS定义
 # yapi要求config.json在HOME目录,而vendors为程序运行入口目录
-# yapi-cli要求config.json在当前目录下
+# yapi-cli要求config.json在当前目录下,并且能连接mongodb
 
 # 定义一些默认参数
 mail_enable=${MAIL_ENABLE:-false}
@@ -23,19 +23,6 @@ function check_in_china() {
         npm config set registry https://registry.npm.taobao.org
         npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
     fi
-}
-
-function install_yapi_cli() {
-    # 执行安装,默认最新版本
-    cd ${HOME}
-    echo ${GIT_URL}
-    if [ ! -d vendors/.git ]; then
-        mv vendors /tmp/
-        git clone --depth 1 ${GIT_URL} vendors
-    fi
-    cd vendors
-    npm install -g node-gyp yapi-cli
-    npm install --production
 }
 
 function install_yapi() {
@@ -95,9 +82,11 @@ EOF
         else
             echo "使用已存在的config.json"
         fi
-    # 安装指定版本yapi
-    yapi-cli install -v ${VERSION}
-    touch init.lock
+        # 安装指定版本yapi
+        if [ "${HOME}" != "/home" ]; then
+            yapi-cli install -v ${VERSION}
+        fi
+        touch init.lock
     fi
 }
 
@@ -111,7 +100,6 @@ function install_plugins() {
 
 
 check_in_china
-install_yapi_cli
 install_yapi
 
 # 安装插件
