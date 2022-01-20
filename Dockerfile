@@ -5,7 +5,7 @@ MAINTAINER ygqygq2<29ygq@sina.com>
 # yapi默认安装文件在/home/vendors下
 
 # 默认环境变量
-ENV VERSION=1.7.2 \
+ENV VERSION=1.8.0 \
   HOME="/home" \
   PORT=3000 \
   ADMIN_EMAIL="admin@admin.com" \

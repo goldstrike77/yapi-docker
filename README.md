@@ -17,7 +17,7 @@
 ## 可修改变量
 | 环境变量       | 默认值         | 建议         |
 | ------------- |:-------------:|:-----------:|
-| VERSION | 1.7.2  | 不建议修改   |
+| VERSION | 1.8.0  | 不建议修改   |
 | HOME | /home | 可修改 |  
 | PORT | 3000  | 可修改 | 
 | ADMIN_EMAIL | admin@admin.com | 建议修改 | 
@@ -39,7 +39,7 @@ services:
     # build: ./
     container_name: yapi
     environment:
-      - VERSION=1.7.2
+      - VERSION=1.8.0
       - LOG_PATH=/tmp/yapi.log
       - HOME=/home
       - PORT=3000
