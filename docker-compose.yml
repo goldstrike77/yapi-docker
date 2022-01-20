@@ -27,8 +27,8 @@ services:
     image: mongo:4
     container_name: mongo
     # restart: always
-    ports:
-      - 27017:27017
+    #ports:
+    #  - 27017:27017
     volumes:
       - ./data/yapi/mongodb:/data/db #db dir
     networks:

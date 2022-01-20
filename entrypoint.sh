@@ -28,10 +28,12 @@ function check_in_china() {
 function install_yapi() {
     cd ${HOME}
     # 判断是否在安装目录已经安装
-    if [ ! -e "init.lock" ]; then
-        if [ ! -e "config.json" ]; then
+    echo "判断是否在安装目录已经安装"
+    if [ ! -f "init.lock" ]; then
+        echo "---未安装"
+        if [ ! -f "config.json" ]; then
             # 判断是否有用户密码，重新设置config.json
-            if [ ! -z "${DB_USER}" ] && [ ! -z "$DB_PASSWORD" ]; then 
+            if [ ! -z "${DB_USER}" ] && [ ! -z "${DB_PASSWORD}" ]; then 
     cat > config.json <<EOF
 {
   "port": "${PORT}",
@@ -84,6 +86,7 @@ EOF
         fi
         # 安装指定版本yapi
         if [ "${HOME}" != "/home" ]; then
+            echo "安装v${VERSION}"
             yapi-cli install -v ${VERSION}
             cd $VENDORS
             # 有bug，缺少qs 
@@ -97,10 +100,9 @@ EOF
 function init_yapi() {
     # 初始化管理员帐户
     cd ${HOME}
-    [ -s init.lock ] && return 0
     rm -f init.lock
     cd ${VENDORS}
-    npm run install-server && echo inited >> ${HOME}/init.lock
+    npm run install-server
 }
 
 function install_plugins() {
@@ -114,7 +116,6 @@ function install_plugins() {
 
 check_in_china
 install_yapi
-init_yapi
 
 # 安装插件
 if [ ! -z "${PLUGINS}" ]; then
