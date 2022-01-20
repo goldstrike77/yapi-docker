@@ -15,24 +15,25 @@ services:
       - DB_PORT=27017
     # restart: always
     ports:
-      - 127.0.0.1:3000:3000
+      - 3000:3000
     volumes:
-      - ~/data/yapi/log/yapi.log:/home/vendors/log # log dir
+      - ./data/yapi/log/yapi.log:/home/vendors/log # log dir
     depends_on:
       - mongo
     entrypoint: "bash /wait-for-it.sh mongo:27017 -- entrypoint.sh"
     networks:
       - back-net
   mongo:
-    image: mongo
+    image: mongo:4
     container_name: mongo
     # restart: always
     ports:
-      - 127.0.0.1:27017:27017
+      - 27017:27017
     volumes:
-      - ~/data/yapi/mongodb:/data/db #db dir
+      - ./data/yapi/mongodb:/data/db #db dir
     networks:
       - back-net
 networks:
   back-net:
-    external: true
+    #external: true
+    driver: bridge

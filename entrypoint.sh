@@ -94,6 +94,15 @@ EOF
     fi
 }
 
+function init_yapi() {
+    # 初始化管理员帐户
+    cd ${HOME}
+    [ -s init.lock ] && return 0
+    rm -f init.lock
+    cd ${VENDORS}
+    npm run install-server && echo inited >> ${HOME}/init.lock
+}
+
 function install_plugins() {
     # 安装插件
     while [ $# != 0 ]; do
@@ -105,6 +114,7 @@ function install_plugins() {
 
 check_in_china
 install_yapi
+init_yapi
 
 # 安装插件
 if [ ! -z "${PLUGINS}" ]; then
@@ -121,3 +131,5 @@ else
     #node server/app.js
     npm start
 fi
+
+exec "$@"

@@ -5,7 +5,6 @@
 <p align="center">ygqygq2 [29ygq@sina.com] </p>
 
 <p align="center">
-<a href="https://travis-ci.org/ygqygq2/yapi-docker"><img src="https://travis-ci.org/ygqygq2/yapi-docker.svg?branch=master" alt="Build Status"></a>
 <a href="https://cloud.docker.com/u/ygqygq2/repository/docker/ygqygq2/yapi"><img src="https://img.shields.io/docker/automated/ygqygq2/yapi.svg?style=flat-square" alt=""></a>
 <a href="https://github.com/ygqygq2/yapi-docker"><img src="https://img.shields.io/github/license/ygqygq2/yapi-docker.svg?style=flat-square" alt="License"></a>
 </p>
@@ -31,46 +30,7 @@
 `docker pull ygqygq2/yapi:latest`
 
 ## docker-compose 部署
-```
-version: '2.1'
-services:
-  yapi:
-    image: ygqygq2/yapi:latest
-    # build: ./
-    container_name: yapi
-    environment:
-      - VERSION=1.8.0
-      - LOG_PATH=/tmp/yapi.log
-      - HOME=/home
-      - PORT=3000
-      - ADMIN_EMAIL=admin@admin.com
-      - DB_SERVER=mongo
-      - DB_NAME=yapi
-      - DB_PORT=27017
-    # restart: always
-    ports:
-      - 127.0.0.1:3000:3000
-    volumes:
-      - ~/data/yapi/log/yapi.log:/home/vendors/log # log dir
-    depends_on:
-      - mongo
-    entrypoint: "bash /wait-for-it.sh mongo:27017 -- entrypoint.sh"
-    networks:
-      - back-net
-  mongo:
-    image: mongo
-    container_name: mongo
-    # restart: always
-    ports:
-      - 127.0.0.1:27017:27017
-    volumes:
-      - ~/data/yapi/mongodb:/data/db #db dir
-    networks:
-      - back-net
-networks:
-  back-net:
-    external: true
-```
+`docker-compose up -d`
 
 ## Nginx 配置
 ```

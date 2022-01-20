@@ -21,7 +21,6 @@ WORKDIR ${HOME}/
 # 拷贝相关文档至默认位置
 COPY entrypoint.sh /bin/
 COPY wait-for-it.sh /
-COPY config.json ${HOME}/
 
 RUN rm -rf node && \
   ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l` && \
@@ -31,10 +30,11 @@ RUN rm -rf node && \
       npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass; \
   fi; \
   echo ${GIT_URL} && \
-  git clone --depth 1 ${GIT_URL} vendors && \
+  git clone -b v${VERSION} --depth 1 ${GIT_URL} vendors && \
   cd vendors && \
   npm install -g node-gyp yapi-cli && \
   npm install --production && \
+  cd .. && npm cache clean --force && \
   chmod +x /bin/entrypoint.sh && \
   chmod +x /wait-for-it.sh
 
