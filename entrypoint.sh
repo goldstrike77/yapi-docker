@@ -17,12 +17,12 @@ PLUGINS=${PLUGINS}
 
 function check_in_china() {
     # 判断是否在国内,加快安装速度
-    ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l`
-    if [ $ret -ne 0 ]; then
+    # ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l`
+    # if [ $ret -ne 0 ]; then
         GIT_URL=${GIT_MIRROR_URL}
         npm config set registry https://registry.npm.taobao.org
         npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass
-    fi
+    # fi
 }
 
 function install_yapi() {
@@ -86,10 +86,7 @@ EOF
         fi
         # 安装指定版本yapi
         if [ "${HOME}" != "/home" ]; then
-            echo "安装v${VERSION}"
-            yapi-cli install -v ${VERSION}
             cd $VENDORS
-            # 有bug，缺少qs 
             npm install qs
         fi
         cd ${HOME}
@@ -112,7 +109,6 @@ function install_plugins() {
         shift
     done
 }
-
 
 check_in_china
 install_yapi

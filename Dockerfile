@@ -5,7 +5,7 @@ MAINTAINER ygqygq2<29ygq@sina.com>
 # yapi默认安装文件在/home/vendors下
 
 # 默认环境变量
-ENV VERSION=1.8.0 \
+ENV VERSION=1.12.0 \
   HOME="/home" \
   PORT=3000 \
   ADMIN_EMAIL="admin@admin.com" \
@@ -23,12 +23,9 @@ COPY entrypoint.sh /bin/
 COPY wait-for-it.sh /
 
 RUN rm -rf node && \
-  ret=`curl -s  https://api.ip.sb/geoip | grep China | wc -l` && \
-  if [ $ret -ne 0 ]; then \
-      GIT_URL=${GIT_MIRROR_URL}; \
-      npm config set registry https://registry.npm.taobao.org; \
-      npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass; \
-  fi; \
+  GIT_URL=${GIT_MIRROR_URL}; \
+  npm config set registry https://registry.npm.taobao.org; \
+  npm config set sass-binary-site http://npm.taobao.org/mirrors/node-sass; \
   echo ${GIT_URL} && \
   git clone -b v${VERSION} --depth 1 ${GIT_URL} vendors && \
   cd vendors && \
