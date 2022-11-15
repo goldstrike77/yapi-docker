@@ -14,7 +14,7 @@ ENV VERSION=1.12.0 \
   DB_PORT=27017 \
   VENDORS=/home/vendors \
   GIT_URL=https://github.com/goldstrike77/yapi.git \
-  GIT_MIRROR_URL=https://gitee.com/mirrors/YApi.git
+  GIT_MIRROR_URL=https://gitee.com/goldstrike/yapi.git
   
 WORKDIR ${HOME}/
 
