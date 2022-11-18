@@ -1,4 +1,4 @@
-FROM node:12.22.12-alpine3.15
+FROM node:lts-jessie
 
 MAINTAINER ygqygq2<29ygq@sina.com>
 
@@ -21,10 +21,6 @@ WORKDIR ${HOME}/
 # 拷贝相关文档至默认位置
 COPY entrypoint.sh /bin/
 COPY wait-for-it.sh /
-
-# 安装构建工具
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
-RUN apk add --update --no-cache ca-certificates curl wget cmake build-base git bash make gcc g++ zlib-dev autoconf automake file nasm python3
 
 RUN rm -rf node && \
   GIT_URL=${GIT_MIRROR_URL}; \
