@@ -8,7 +8,7 @@ module.exports = function (options) {
     user_info = jwt_decode(token);
     console.log(user_info);
     let ret = {
-      email: user_info.email,
+      email: user_info.preferred_username,
       username: user_info.name
     }
     return Promise.resolve(ret);

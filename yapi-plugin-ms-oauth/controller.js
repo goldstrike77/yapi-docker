@@ -24,7 +24,8 @@ class oauth2Controller extends baseController {
       if (!oauthstate) {
         return (ctx.body = yapi.commons.resReturn(null, 400, 'state不能为空'));
       }
-      let ops = yapi.findPluginOptions('ms-oauth');
+      // let ops = yapi.findPluginOptions('ms-oauth');
+      let ops = yapi.WEBCONFIG.plugins[0].options;
       // 通过code获取token
       let data = querystring.stringify({
         grant_type: 'authorization_code', 
@@ -35,6 +36,7 @@ class oauth2Controller extends baseController {
       });
       let tokenResult = await this.requestInfo(ops, ops.tokenPath, 'POST', data).then(function(res) {
         let jsonRes = JSON.parse(res);
+        yapi.commons.log("jsonRes:", jsonRes)
         ctx.redirect('/api/user/login_by_token?token=' + jsonRes.id_token);
       }).catch(function(rej) {
         return {
@@ -42,6 +44,7 @@ class oauth2Controller extends baseController {
           message: rej.statusMessage
         };
       });
+      yapi.commons.log("tokenResult:", tokenResult)
       return ctx.body = yapi.commons.resReturn(tokenResult, 401, "授权失败");
     } catch (err) {
       ctx.body = yapi.commons.resReturn(null, 400, err.message);
@@ -87,6 +90,7 @@ class oauth2Controller extends baseController {
           }
         }
       );
+      yapi.commons.log("https_client:", https_client)
       https_client.write(data);
       https_client.on('error', (e) => {
         reject({message: 'request error'});
