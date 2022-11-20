@@ -1,26 +1,27 @@
 FROM node:lts-jessie
 
-MAINTAINER ygqygq2<29ygq@sina.com>
-
-# yapi默认安装文件在/home/vendors下
+WORKDIR /yapi
+#RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk add --no-cache curl wget cmake build-base git bash make gcc g++ zlib-dev autoconf automake file nasm python2
 
 # 默认环境变量
 ENV VERSION=1.9.2 \
-  HOME="/home" \
+  HOME="/yapi" \
   PORT=3000 \
   ADMIN_EMAIL="admin@admin.com" \
   DB_SERVER="mongo" \
   DB_NAME="yapi" \
   DB_PORT=27017 \
-  VENDORS=/home/vendors \
+  VENDORS=/yapi/vendors \
   GIT_URL=https://github.com/YMFE/yapi.git \
   GIT_MIRROR_URL=https://gitee.com/mirrors/YApi.git
 
-WORKDIR ${HOME}/
+WORKDIR ${HOME}
 
 # 拷贝相关文档至默认位置
 COPY entrypoint.sh /bin/
 COPY wait-for-it.sh /
+COPY config.json /yapi
+COPY yapi-plugin-ms-oauth /yapi/yapi-plugin-ms-oauth
 
 RUN rm -rf node && \
   GIT_URL=${GIT_MIRROR_URL}; \
@@ -31,10 +32,10 @@ RUN rm -rf node && \
   cd vendors && \
   npm install -g node-gyp yapi-cli ykit && \
   npm install --production && \
-  cd .. && \
-  cp vendors/config_example.json ./config.json && \
+  cp -r /yapi/yapi-plugin-ms-oauth ./ && \
+  npm install ./yapi-plugin-ms-oauth && \
+  ykit pack -m && \
   npm cache clean --force && \
-  yapi plugin --name yapi-plugin-ms-oauth && \
   chmod +x /bin/entrypoint.sh && \
   chmod +x /wait-for-it.sh
 

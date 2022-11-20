@@ -1,21 +1,44 @@
 {
-  "port": "3000",
+  "port": 3000,
   "adminAccount": "admin@admin.com",
   "db": {
-    "servername": "127.0.0.1",
+    "servername": "mongodb",
     "DATABASE": "yapi",
     "port": 27017,
-    "authSource": ""
+    "user": "yapi",
+    "pass": "password",
+    "authSource": "yapi"
   },
+  "closeRegister": true,
+  "plugins": [{
+      "name": "ms-oauth",
+      "options": {
+        "type": "oauth2",
+        "hostscheme": "https",
+        "hostname": "login.partner.microsoftonline.cn",
+        "authPath": "/8209af61-7dcc-42b8-8cdf-0745c5096e95/oauth2/v2.0/authorize",
+        "tokenPath": "/8209af61-7dcc-42b8-8cdf-0745c5096e95/oauth2/v2.0/token",
+        "redirectUri": "https://yapi.example.com/api/plugin/oauth2/callback",
+        "appId": "d4b1f920-ecf9-4386-adbc-e695565984ab",
+        "appSecret": "ffl3k8E~.s7VsXgXT-l3I5Xt_M5cX2xc3d"
+      }
+    }
+  ],
+  "adminPassword": "password",
+  "npmRegistry": "https://registry.npm.taobao.org",
   "mail": {
     "enable": false,
-    "host": "smtp.163.com",
-    "port": 465,
-    "from": "***@163.com",
-    "auth": {
-      "user": "***@163.com",
-      "pass": "*****"
-    }
+    "auth": {}
+  },
+  "ldapLogin": {
+    "enable": true,
+    "server": "ldap://192.168.0.251",
+    "baseDn": "CN=Administrator,CN=Users,DC=example,DC=com",
+    "bindPassword": "Passw0rd",
+    "searchDn": "OU=yapi,DC=example,DC=com",
+    "searchStandard": "&(objectCategory=Person)(sAMAccountName=%s)",
+    "emailPostfix": "",
+    "emailKey": "",
+    "usernameKey": "sAMAccountName"
   }
 }
-
